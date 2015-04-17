@@ -16,11 +16,11 @@ function postSource_restoreLine(type, name) {
 		
 		try {
 			//Get committed line values
-			var lineId = nlapiGetCurrentLineItemIndex(type); 						//get the current line id
-			var	qty = nlapiGetLineItemValue(type, 'quantity', lineId); 				//get quantity
-			var	stDescription = nlapiGetLineItemValue(type, 'description', lineId); //get item description
-			var	curRate = nlapiGetLineItemValue(type, 'rate', lineId); 				//get unit rate
-			var	customerId = nlapiGetLineItemValue(type, 'customer', lineId);		//get customer/project ID
+			var lineNum = nlapiGetCurrentLineItemIndex(type); 							//get the current line id
+			var	qty = nlapiGetLineItemValue(type, 'quantity', lineNum); 				//get quantity
+			var	stDescription = nlapiGetLineItemValue(type, 'description', lineNum); 	//get item description
+			var	curRate = nlapiGetLineItemValue(type, 'rate', lineNum); 				//get unit rate
+			var	customerId = nlapiGetLineItemValue(type, 'customer', lineNum);			//get customer/project ID
 			
 			//set new values after item change post sourcing if values not null
 			if (qty!= null) {
