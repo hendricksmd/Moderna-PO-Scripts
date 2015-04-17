@@ -33,7 +33,7 @@ function postSource_restoreLine(type, name) {
 			var assetId = nlapiGetLineItemValue(type, 'custcol_far_trn_relatedasset', lineNum);
 			
 			//set new values after item change post sourcing if values not null
-			if (qty!= null) {
+			if (qty != null && qty != '') {
 				nlapiSetCurrentLineItemValue(type, 'quantity', qty, false);
 			}
 			
