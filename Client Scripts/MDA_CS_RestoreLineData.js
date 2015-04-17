@@ -19,8 +19,18 @@ function postSource_restoreLine(type, name) {
 			var lineNum = nlapiGetCurrentLineItemIndex(type); 							
 			var	qty = nlapiGetLineItemValue(type, 'quantity', lineNum); 				
 			var	stDescription = nlapiGetLineItemValue(type, 'description', lineNum); 	
-			var	curRate = nlapiGetLineItemValue(type, 'rate', lineNum); 				
-			var	customerId = nlapiGetLineItemValue(type, 'customer', lineNum);			
+			var	curRate = nlapiGetLineItemValue(type, 'rate', lineNum); 		
+			var departmentId = nlapiGetLineItemValue(type, 'department', lineNum);
+			var classId = nlapiGetLineItemValue(type, 'class', lineNum);
+			var locationId = nlapiGetLineItemValue(type, 'location', lineNum);
+			var	customerId = nlapiGetLineItemValue(type, 'customer', lineNum);
+			
+			//may not need these
+			var	isBillable = nlapiGetLineItemValue(type, 'isbillable', lineNum);
+			var isMatch = nlapiGetLineItemValue(type, 'matchbilltoreceipt', lineNum);
+			var dteExRcpt = nlapiGetLineItemValue(type, 'expectedreceiptdate', lineNum);
+			var projId = nlapiGetLineItemValue(type, 'custcol_proj', lineNum);
+			var assetId = nlapiGetLineItemValue(type, 'custcol_far_trn_relatedasset', lineNum);
 			
 			//set new values after item change post sourcing if values not null
 			if (qty!= null) {
@@ -33,9 +43,19 @@ function postSource_restoreLine(type, name) {
 			if (curRate != null && curRate!= '') {
 				nlapiSetCurrentLineItemValue(type, 'rate', curRate, false);
 			}
-			if (customerId!= null && customerId!= '') {
-				nlapiSetCurrentLineItemValue(type, 'customer', projId, false);
+			if (departmentId!= null && departmentId!= '') {
+				nlapiSetCurrentLineItemValue(type, 'customer', departmentId, false);
 			}
+			if (classId!= null && classId!= '') {
+				nlapiSetCurrentLineItemValue(type, 'customer', classId, false);
+			}
+			if (locationId!= null && locationId!= '') {
+				nlapiSetCurrentLineItemValue(type, 'customer', locationId, false);
+			}
+			if (customerId!= null && customerId!= '') {
+				nlapiSetCurrentLineItemValue(type, 'customer', customerId, false);
+			}
+			
 		} catch (e) {
 			nlapiLogExecution('ERROR', 'unexpected error restoring previous line values', e.toString());
 		}
