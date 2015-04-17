@@ -44,13 +44,13 @@ function postSource_restoreLine(type, name) {
 				nlapiSetCurrentLineItemValue(type, 'rate', curRate, false);
 			}
 			if (departmentId!= null && departmentId!= '') {
-				nlapiSetCurrentLineItemValue(type, 'customer', departmentId, false);
+				nlapiSetCurrentLineItemValue(type, 'department', departmentId, false);
 			}
 			if (classId!= null && classId!= '') {
-				nlapiSetCurrentLineItemValue(type, 'customer', classId, false);
+				nlapiSetCurrentLineItemValue(type, 'class', classId, false);
 			}
 			if (locationId!= null && locationId!= '') {
-				nlapiSetCurrentLineItemValue(type, 'customer', locationId, false);
+				nlapiSetCurrentLineItemValue(type, 'location', locationId, false);
 			}
 			if (customerId!= null && customerId!= '') {
 				nlapiSetCurrentLineItemValue(type, 'customer', customerId, false);
