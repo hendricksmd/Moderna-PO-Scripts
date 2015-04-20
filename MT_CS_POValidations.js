@@ -63,13 +63,10 @@ function postSource_restoreLine(type, name) {
 }
 
 
-//Validate Line CapX
-/**
- * The recordType (internal id) corresponds to the "Applied To" record in your script deployment. 
- * @appliedtorecord purchaseorder
- *   
- * @param {String} type Sublist internal id
- * @returns {Boolean} True to save line item, false to abort save
+/*
+ * Validate Line CapX. if the line is > 3,000, the capx field is checked
+ * and if there is no CAPEX SPEC value, the user is alerted to select one before
+ * continuing.
  */
 function validateLine_checkCapx(type) {
 	if (type == 'item' || type == 'expense') {
@@ -91,28 +88,30 @@ function validateLine_checkCapx(type) {
     return true;
 }
 
-/**
- * The recordType (internal id) corresponds to the "Applied To" record in your script deployment. 
- * @appliedtorecord recordType
- *   
- * @returns {Boolean} True to continue save, false to abort save
+
+
+/*
+ * if any line is over 3,000 Dollars, this function ensures that the capex box is checked
+ * and alerts users if they need to select a CAPEX SPEC before saving.
  */
 function save_checkCapX() {
 	var curTotal = nlapiGetFieldValue('total');
-	
 	if (curTotal > 3000 ) {
 		var lineCount = nlapiGetLineItemCount('item');
 		
+		//loop through line items and validate the amount
 		for (var i = 1; i <= lineCount; i++) {
 			var stItem = nlapiGetLineItemText('item', 'item', i);
 			var curAmount = nlapiGetLineItemValue('item', 'amount', i);
 			var capXline = nlapiGetLineItemValue('item', 'custcol_capex_spec', i);
 			
+			//if the amount is > 3,000 then set the capx box
 			if (curAmount >= 3000) {
 				var isCapX = nlapiGetFieldValue('custbody_capex');
 				if (isCapX =='F') {
 					nlapiSetFieldValue('custbody_capex', 'T');
 				} 
+				//if the CAPEX SPEC field is empty then alert the user and falsify the save
 				if (capXline == null  || capXline == '') {
 					alert('Line: ' + stItem + ' requires CAPEX SPEC to be filled in.' + '\n' +
 							' Please select an option before saving');
