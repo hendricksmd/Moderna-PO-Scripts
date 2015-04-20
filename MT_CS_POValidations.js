@@ -51,6 +51,7 @@ function postSource_restoreLine(type, name) {
 			if (dteExRcpt  != null && dteExRcpt != '') {
 				nlapiSetCurrentLineItemValue(type, 'expectedreceiptdate', dteExRcpt, false);
 			}
+			
 			if (capX  != null && capX != '') {
 				nlapiSetCurrentLineItemValue(type, 'custcol_capex_spec', isCapX, false);
 			}
@@ -71,17 +72,22 @@ function postSource_restoreLine(type, name) {
  * @returns {Boolean} True to save line item, false to abort save
  */
 function validateLine_checkCapx(type) {
-	if (type == 'item') {
+	if (type == 'item' || type == 'expense') {
+		var customerId = nlapiGetCurrentLineItemValue(type, 'customer');
 		var curAmt = nlapiGetCurrentLineItemValue(type, 'amount');
+		var capXline = nlapiGetCurrentLineItemValue(type, 'custcol_capex_spec');
 		
 		if (curAmt >= 3000) {
 			nlapiSetFieldValue('custbody_capex', 'T');
-			alert('this item is greater than $3000.00. Please fill in CAPEX SPEC');
-			return false;
+			if (capXline == null || capXline == '') {
+				alert('this item is greater than $3000.00. Please fill in CAPEX SPEC');
+				return false;
+			}
 		}
-		
+		if (customerId != null && customerId != '') {
+			nlapiSetCurrentLineItemValue(type,'custcol_proj',customerId);
+		}
 	}
- 
     return true;
 }
 
@@ -97,9 +103,23 @@ function save_checkCapX() {
 	if (curTotal > 3000 ) {
 		var lineCount = nlapiGetLineItemCount('item');
 		
-		return false;
-	}
-	
-	
+		for (var i = 1; i <= lineCount; i++) {
+			var stItem = nlapiGetLineItemText('item', 'item', i);
+			var curAmount = nlapiGetLineItemValue('item', 'amount', i);
+			var capXline = nlapiGetLineItemValue('item', 'custcol_capex_spec', i);
+			
+			if (curAmount >= 3000) {
+				var isCapX = nlapiGetFieldValue('custbody_capex');
+				if (isCapX =='F') {
+					nlapiSetFieldValue('custbody_capex', 'T');
+				} 
+				if (capXline == null  || capXline == '') {
+					alert('Line: ' + stItem + ' requires CAPEX SPEC to be filled in.' + '\n' +
+							' Please select an option before saving');
+					return false;
+				}
+			}
+		}		
+	}		
     return true;
 }
