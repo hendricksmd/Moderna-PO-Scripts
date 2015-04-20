@@ -1,17 +1,23 @@
 /**
- * 
  * Version    Date            Author         
  * 1.00       17 Apr 2015     McGladrey
- *
+ */
+/*
  *Module Description
- *If a user has to change the item on a PO, the previously committed values are captured
+ *Contains client event functions that allow a user to change line items on a PO
+ *while maintaining previously entered information. 
+ *
+ *Also, a validation ensures that if line items are over 3000, the header CAPEX field
+ *is checked and the lines require a CAPEX SPEC
+ */
+
+/*
+ * post sourcing function
+ * If a user has to change the item on a PO, the previously committed values are captured
  *and filled back in after the new item post sourcing event.
  */
 function postSource_restoreLine(type, name) {
-	/*
-	 * if the item field on the item sublist is changed (on a previously committed line)
-	 * then execute
-	 */
+	
 	if (type == 'item' && name == 'item') {
 		
 		try {
@@ -22,9 +28,7 @@ function postSource_restoreLine(type, name) {
 			var	curRate = nlapiGetLineItemValue(type, 'rate', lineNum); 		
 			var departmentId = nlapiGetLineItemValue(type, 'department', lineNum);
 			var	customerId = nlapiGetLineItemValue(type, 'customer', lineNum);
-			var capX = nlapiGetLineItemValue(type, 'custcol_capex_spec', lineNum);
-			//var proj = nlapiGetLineItemValue(type, 'custcol_capex_spec', lineNum);
-			
+			var capX = nlapiGetLineItemValue(type, 'custcol_capex_spec', lineNum);			
 			var	isBillable = nlapiGetLineItemValue(type, 'isbillable', lineNum);
 			var dteExRcpt = nlapiGetLineItemValue(type, 'expectedreceiptdate', lineNum);
 			
@@ -51,7 +55,6 @@ function postSource_restoreLine(type, name) {
 			if (dteExRcpt  != null && dteExRcpt != '') {
 				nlapiSetCurrentLineItemValue(type, 'expectedreceiptdate', dteExRcpt, false);
 			}
-			
 			if (capX  != null && capX != '') {
 				nlapiSetCurrentLineItemValue(type, 'custcol_capex_spec', isCapX, false);
 			}
@@ -61,7 +64,6 @@ function postSource_restoreLine(type, name) {
 		}
 	}
 }
-
 
 /*
  * Validate Line CapX. if the line is > 3,000, the capx field is checked
@@ -81,14 +83,15 @@ function validateLine_checkCapx(type) {
 				return false;
 			}
 		}
+		/*
+		 * Felix: this is your script. i shortened it and adjusted it to make it functional with both expenses and items
+		 */
 		if (customerId != null && customerId != '') {
-			nlapiSetCurrentLineItemValue(type,'custcol_proj',customerId);
+			nlapiSetCurrentLineItemValue(type,'custcol_proj', customerId);
 		}
 	}
     return true;
 }
-
-
 
 /*
  * if any line is over 3,000 Dollars, this function ensures that the capex box is checked
