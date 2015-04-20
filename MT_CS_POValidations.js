@@ -12,7 +12,7 @@
  */
 
 /*
- * post sourcing function
+ * Post-sourcing function
  * If a user has to change the item on a PO, the previously committed values are captured
  *and filled back in after the new item post sourcing event.
  */
@@ -32,7 +32,7 @@ function postSource_restoreLine(type, name) {
 			var	isBillable = nlapiGetLineItemValue(type, 'isbillable', lineNum);
 			var dteExRcpt = nlapiGetLineItemValue(type, 'expectedreceiptdate', lineNum);
 			
-			//set new values after item change post sourcing if values not null
+			//Set new values after item change post sourcing if values not null
 			if (qty != null && qty != '') {
 				nlapiSetCurrentLineItemValue(type, 'quantity', qty, false);
 			}
@@ -94,7 +94,7 @@ function validateLine_checkCapx(type) {
 }
 
 /*
- * if any line is over 3,000 Dollars, this function ensures that the capex box is checked
+ * If any line is over 3,000 Dollars, this function ensures that the capex box is checked
  * and alerts users if they need to select a CAPEX SPEC before saving.
  */
 function save_checkCapX() {
