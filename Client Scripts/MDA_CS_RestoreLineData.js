@@ -40,19 +40,19 @@ function postSource_restoreLine(type, name) {
 			if (stDescription != '' && stDescription!= null) {
 				nlapiSetCurrentLineItemValue(type, 'description', stDescription, false);
 			}
-			if (curRate != null && curRate!= '') {
+			if (curRate != null && curRate != '') {
 				nlapiSetCurrentLineItemValue(type, 'rate', curRate, false);
 			}
-			if (departmentId!= null && departmentId!= '') {
+			if (departmentId != null && departmentId != '') {
 				nlapiSetCurrentLineItemValue(type, 'department', departmentId, false);
 			}
-			if (classId!= null && classId!= '') {
+			if (classId != null && classId != '') {
 				nlapiSetCurrentLineItemValue(type, 'class', classId, false);
 			}
-			if (locationId!= null && locationId!= '') {
+			if (locationId != null && locationId != '') {
 				nlapiSetCurrentLineItemValue(type, 'location', locationId, false);
 			}
-			if (customerId!= null && customerId!= '') {
+			if (customerId != null && customerId != '') {
 				nlapiSetCurrentLineItemValue(type, 'customer', customerId, false);
 			}
 			
