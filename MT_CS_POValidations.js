@@ -26,6 +26,7 @@ function postSource_restoreLine(type, name) {
             var stDescription = nlapiGetLineItemValue(type, 'description', lineNum);
             var curRate = nlapiGetLineItemValue(type, 'rate', lineNum);
             var departmentId = nlapiGetLineItemValue(type, 'department', lineNum);
+            var classId = nlapiGetLineItemValue(type, 'class', lineNum);
             var customerId = nlapiGetLineItemValue(type, 'customer', lineNum);
             var capX = nlapiGetLineItemValue(type, 'custcol_capex_spec', lineNum);
             var isBillable = nlapiGetLineItemValue(type, 'isbillable', lineNum);
@@ -44,6 +45,9 @@ function postSource_restoreLine(type, name) {
             }
             if (departmentId != null && departmentId != '') {
                 nlapiSetCurrentLineItemValue(type, 'department', departmentId, false);
+            }
+            if (classId != null && classId != '') {
+                nlapiSetCurrentLineItemValue(type, 'class', classId, false);
             }
             if (customerId != null && customerId != '') {
                 nlapiSetCurrentLineItemValue(type, 'customer', customerId, false);
@@ -100,6 +104,7 @@ function save_checkCapX() {
     var curTotal = nlapiGetFieldValue('total');
     if (curTotal > 3000) {
         var lineCount = nlapiGetLineItemCount('item');
+        var v = 'F';
 
         //loop through line items and validate the amount
         for (var i = 1; i <= lineCount; i++) {
@@ -110,8 +115,10 @@ function save_checkCapX() {
             //if the amount is > 3,000 then set the capx box
             if (curAmount >= 3000) {
                 var isCapX = nlapiGetFieldValue('custbody_capex');
+                v = 'T';
                 if (isCapX == 'F') {
                     nlapiSetFieldValue('custbody_capex', 'T');
+                    
                 }
                 //if the CAPEX SPEC field is empty then alert the user and falsify the save
                 if (capXline == null || capXline == '') {
@@ -120,6 +127,9 @@ function save_checkCapX() {
                     return false;
                 }
             }
+        }
+        if (v == 'F') {
+        	nlapiSetFieldValue('custbody_capex', 'F');
         }
     }
     return true;
