@@ -102,7 +102,7 @@ function validateLine_checkCapx(type) {
  */
 function save_checkCapX() {
     var curTotal = nlapiGetFieldValue('total');
-    if (curTotal > 3000) {
+    if (curTotal >= 3000) {
         var lineCount = nlapiGetLineItemCount('item');
         var v = 'F';
 
