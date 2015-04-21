@@ -10,6 +10,20 @@
  *Also, a validation ensures that if line items are over 3000, the header CAPEX field
  *is checked and the lines require a CAPEX SPEC
  */
+
+
+/**
+ * The recordType (internal id) corresponds to the "Applied To" record in your script deployment. 
+ * @appliedtorecord recordType 
+ * 
+ * @param {String} type Access mode: create, copy, edit
+ * @returns {Void}
+ */
+function pageInit_removeCapex(type) {
+	if (type == 'copy') {		
+			nlapiSetFieldValue('custbody_capex', 'F');
+	}
+}
 /*
  * Post-sourcing function
  * If a user has to change the item on a PO, the previously committed values are captured
@@ -102,7 +116,6 @@ function validateLine_checkCapx(type) {
  */
 function save_checkCapX() {
     var curTotal = nlapiGetFieldValue('total');
-    if (curTotal >= 3000) {
         var lineCount = nlapiGetLineItemCount('item');
         var v = 'F';
 
@@ -131,6 +144,5 @@ function save_checkCapX() {
         if (v == 'F') {
         	nlapiSetFieldValue('custbody_capex', 'F');
         }
-    }
     return true;
 }
