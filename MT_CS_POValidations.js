@@ -118,7 +118,6 @@ function save_checkCapX() {
                 v = 'T';
                 if (isCapX == 'F') {
                     nlapiSetFieldValue('custbody_capex', 'T');
-                    
                 }
                 //if the CAPEX SPEC field is empty then alert the user and falsify the save
                 if (capXline == null || capXline == '') {
