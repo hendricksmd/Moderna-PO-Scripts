@@ -109,34 +109,33 @@ function validateLine_checkCapx(type) {
  * and alerts users if they need to select a CAPEX SPEC before saving.
  */
 function save_checkCapX() {
-    var curTotal = nlapiGetFieldValue('total');
-        var lineCount = nlapiGetLineItemCount('item');
-        var v = 'F';
+       var lineCount = nlapiGetLineItemCount('item');
+       var v = 'F';
 
-        //loop through line items and validate the amount
-        for (var i = 1; i <= lineCount; i++) {
-            var stItem = nlapiGetLineItemText('item', 'item', i);
-            var curAmount = nlapiGetLineItemValue('item', 'amount', i);
-            var capXline = nlapiGetLineItemValue('item', 'custcol_capex_spec', i);
+       //loop through line items and validate the amount
+       for (var i = 1; i <= lineCount; i++) {
+           var stItem = nlapiGetLineItemText('item', 'item', i);
+           var curAmount = nlapiGetLineItemValue('item', 'amount', i);
+           var capXline = nlapiGetLineItemValue('item', 'custcol_capex_spec', i);
 
-            //if the amount is > 3,000 then set the capx box
-            if (curAmount >= 3000) {
-                var isCapX = nlapiGetFieldValue('custbody_capex');
-                v = 'T';
-                if (isCapX == 'F') {
-                    nlapiSetFieldValue('custbody_capex', 'T');
-                }
-                //if the CAPEX SPEC field is empty then alert the user and falsify the save
-                if (capXline == null || capXline == '') {
-                    alert('Line: ' + stItem + ' requires CAPEX SPEC to be filled in.' + '\n' +
-                        ' Please select an option before saving');
-                    return false;
-                }
-            }
-        }
-        //if no items are greater than 3000 then uncheck the capex box
-        if (v == 'F') {
-        	nlapiSetFieldValue('custbody_capex', 'F');
-        }
+           //if the amount is > 3,000 then set the capx box
+           if (curAmount >= 3000) {
+               var isCapX = nlapiGetFieldValue('custbody_capex');
+               v = 'T';
+               if (isCapX == 'F') {
+                   nlapiSetFieldValue('custbody_capex', 'T');
+               }
+               //if the CAPEX SPEC field is empty then alert the user and falsify the save
+               if (capXline == null || capXline == '') {
+                   alert('Line: ' + stItem + ' requires CAPEX SPEC to be filled in.' + '\n' +
+                       ' Please select an option before saving');
+                   return false;
+               }
+           }
+       }
+       //if no items are greater than 3000 then uncheck the capex box
+       if (v == 'F') {
+    	   nlapiSetFieldValue('custbody_capex', 'F');
+       }
     return true;
 }
