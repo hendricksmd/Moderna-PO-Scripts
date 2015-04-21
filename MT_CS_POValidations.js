@@ -12,16 +12,10 @@
  */
 
 
-/**
- * The recordType (internal id) corresponds to the "Applied To" record in your script deployment. 
- * @appliedtorecord recordType 
- * 
- * @param {String} type Access mode: create, copy, edit
- * @returns {Void}
- */
+//Page Init. Unchecks the CapEx box on copy
 function pageInit_removeCapex(type) {
 	if (type == 'copy') {		
-			nlapiSetFieldValue('custbody_capex', 'F');
+		nlapiSetFieldValue('custbody_capex', 'F');
 	}
 }
 /*
