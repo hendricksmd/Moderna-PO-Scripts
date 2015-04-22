@@ -128,7 +128,7 @@ function save_checkCapX() {
 			//if the CAPEX SPEC field is empty then alert the user and falsify the save
 			if (capXline == null || capXline == '') {
 				alert('Line: ' + stItem + ' requires CAPEX SPEC to be filled in.' + '\n' +
-				' Please select an option before saving');
+					' Please select an option before saving');
 				return false;
 			}
 		}
