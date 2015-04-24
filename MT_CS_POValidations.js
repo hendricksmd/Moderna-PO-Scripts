@@ -140,7 +140,7 @@ function save_checkCapX() {
 			}
 		}
 	}
-	//if no items are greater than 3000 then uncheck the capex box
+	//if no items qualify as Capex then uncheck the capex box
 	if (v == 'F') {
 		nlapiSetFieldValue('custbody_capex', 'F');
 	}
