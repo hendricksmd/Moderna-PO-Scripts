@@ -81,12 +81,12 @@ function postSource_restoreLine(type, name) {
  * and if there is no CAPEX SPEC value, the user is alerted to select one before
  * continuing.
  */
-function validateLine_setProj(type) {
+function validateLine_setCapx(type) {
 	if (type == 'item' || type == 'expense') {
 		var customerId = nlapiGetCurrentLineItemValue(type, 'customer');
 		var isCapX = nlapiGetFieldValue('custbody_capex');
 		
-		if (isCapX != 'T'){
+		if (isCapX != 'T') {
 			var itemId = nlapiGetCurrentLineItemValue(type, 'item');
 			var curAmt = nlapiGetCurrentLineItemValue(type, 'amount');
 			if (curAmt >= 10000) {
