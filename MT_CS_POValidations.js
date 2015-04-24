@@ -127,8 +127,8 @@ function save_checkCapX() {
 		if (curAmount >= 10000) {
 			var isCapX = nlapiGetFieldValue('custbody_capex');
 			var n = nlapiGetLineItemValue('item', 'itemtype', i);
-			var itemType = getType(n);
-			var itemAccount = nlapiLookupField(itemType, stItem, 'expenseaccount');
+			n = getType(n);
+			var itemAccount = nlapiLookupField(n, stItem, 'expenseaccount');
 			
 			var isCapExItem = parseInt(arr.indexOf(itemAccount));
 			
