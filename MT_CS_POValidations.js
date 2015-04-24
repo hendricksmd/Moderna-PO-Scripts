@@ -81,17 +81,23 @@ function postSource_restoreLine(type, name) {
  * and if there is no CAPEX SPEC value, the user is alerted to select one before
  * continuing.
  */
-function validateLine_checkCapx(type) {
+function validateLine_setProj(type) {
 	if (type == 'item' || type == 'expense') {
 		var customerId = nlapiGetCurrentLineItemValue(type, 'customer');
-		var curAmt = nlapiGetCurrentLineItemValue(type, 'amount');
-		var capXline = nlapiGetCurrentLineItemValue(type, 'custcol_capex_spec');
-
-		if (curAmt >= 3000) {
-			nlapiSetFieldValue('custbody_capex', 'T');
-			if (capXline == null || capXline == '') {
-				alert('this item is greater than $3000.00. Please fill in CAPEX SPEC');
-				return false;
+		var isCapX = nlapiGetFieldValue('custbody_capex');
+		
+		if (isCapX != 'T'){
+			var itemId = nlapiGetCurrentLineItemValue(type, 'item');
+			var curAmt = nlapiGetCurrentLineItemValue(type, 'amount');
+			if (curAmt >= 10000) {
+				var n = nlapiGetCurrentLineItemValue(type, 'itemtype');
+				n = getType(n);
+				var itemAccount =nlapiLookupField(n, itemId, 'expenseaccount');
+				
+				var isCapExItem = parseInt(arr.indexOf(itemAccount));
+				if ( isCapExItem > -1) {
+					nlapiSetFieldValue('custbody_capex', 'T');
+				}
 			}
 		}
 		/*
@@ -114,22 +120,22 @@ function save_checkCapX() {
 
 	//loop through line items and validate the amount
 	for (var i = 1; i <= lineCount; i++) {
-		var stItem = nlapiGetLineItemText('item', 'item', i);
+		var stItem = nlapiGetLineItemValue('item', 'item', i);
 		var curAmount = nlapiGetLineItemValue('item', 'amount', i);
-		var capXline = nlapiGetLineItemValue('item', 'custcol_capex_spec', i);
 
 		//if the amount is > 3,000 then set the capx box
-		if (curAmount >= 3000) {
+		if (curAmount >= 10000) {
 			var isCapX = nlapiGetFieldValue('custbody_capex');
-			v = 'T';
-			if (isCapX == 'F') {
+			var n = nlapiGetLineItemValue('item', 'itemtype', i);
+			var itemType = getType(n);
+			var itemAccount = nlapiLookupField(itemType, stItem, 'expenseaccount');
+			
+			var isCapExItem = parseInt(arr.indexOf(itemAccount));
+			
+			if ( isCapExItem > -1) {
 				nlapiSetFieldValue('custbody_capex', 'T');
-			}
-			//if the CAPEX SPEC field is empty then alert the user and falsify the save
-			if (capXline == null || capXline == '') {
-				alert('Line: ' + stItem + ' requires CAPEX SPEC to be filled in.' + '\n' +
-					' Please select an option before saving');
-				return false;
+				v = 'T';
+				break;
 			}
 		}
 	}
@@ -139,3 +145,4 @@ function save_checkCapX() {
 	}
 	return true;
 }
+
