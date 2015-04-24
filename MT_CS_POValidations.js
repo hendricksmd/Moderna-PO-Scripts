@@ -123,13 +123,12 @@ function save_checkCapX() {
 		var stItem = nlapiGetLineItemValue('item', 'item', i);
 		var curAmount = nlapiGetLineItemValue('item', 'amount', i);
 
-		//if the amount is > 3,000 then set the capx box
+		//if the amount is > 10,000 then set the capx box
 		if (curAmount >= 10000) {
 			var isCapX = nlapiGetFieldValue('custbody_capex');
 			var n = nlapiGetLineItemValue('item', 'itemtype', i);
 			n = getType(n);
 			var itemAccount = nlapiLookupField(n, stItem, 'expenseaccount');
-			
 			var isCapExItem = parseInt(arr.indexOf(itemAccount));
 			
 			if ( isCapExItem > -1) {
