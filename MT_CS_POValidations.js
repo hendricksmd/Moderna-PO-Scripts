@@ -111,7 +111,9 @@ function validateLine_setProj(type) {
 }
 
 /*
- * If any line is over 3,000 Dollars, this function ensures that the capex box is checked
+ * If any line is over 10,000 Dollars,
+ * and uses one of the capex FA accounts
+ * this function ensures that the capex box is checked
  * and alerts users if they need to select a CAPEX SPEC before saving.
  */
 function save_checkCapX() {
