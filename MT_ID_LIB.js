@@ -1,8 +1,4 @@
-/*
- * Library File for Capex and item script
- * 
- * 
- */
+
 /*
  * /Account IDs that qualify items for CAPEX
  * 13020
