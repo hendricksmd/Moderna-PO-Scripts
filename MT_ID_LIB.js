@@ -1,13 +1,14 @@
 
 /*
- * /Account IDs that qualify items for CAPEX
+ * Compliments script MT_CS_POValidations
+ * Account IDs that qualify items for CAPEX
  * 13020
  * 13030
  * 13040
  * 13050
  * 13060 
  */
-var arr = ['227','228','229','230','459'];
+var arr = ['227','228','229','230','459']; //GL account Internal IDs
 
 
 //returns the item type for a lookup

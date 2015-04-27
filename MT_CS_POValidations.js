@@ -133,7 +133,7 @@ function save_checkCapX() {
 			var itemAccount = nlapiLookupField(n, stItem, 'expenseaccount');
 			var isCapExItem = parseInt(arr.indexOf(itemAccount));
 			
-			if ( isCapExItem > -1) {
+			if (isCapExItem > -1) {
 				nlapiSetFieldValue('custbody_capex', 'T');
 				v = 'T';
 				break;
