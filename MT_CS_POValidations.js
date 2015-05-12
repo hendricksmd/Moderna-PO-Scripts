@@ -39,6 +39,7 @@ function postSource_restoreLine(type, name) {
 			var capX = nlapiGetLineItemValue(type, 'custcol_capex_spec', lineNum);
 			var isBillable = nlapiGetLineItemValue(type, 'isbillable', lineNum);
 			var dteExRcpt = nlapiGetLineItemValue(type, 'expectedreceiptdate', lineNum);
+			var catNum = nlapiGetLineItemValue(type, 'custcol_catalog_num', lineNum); //added
 
 			//Set new values after item change post sourcing if values not null
 			if (qty != null && qty != '') {
@@ -68,6 +69,9 @@ function postSource_restoreLine(type, name) {
 			}
 			if (capX != null && capX != '') {
 				nlapiSetCurrentLineItemValue(type, 'custcol_capex_spec', isCapX, false);
+			}
+			if (catNum != null && catNum != '') {
+				nlapiSetCurrentLineItemValue(type, 'custcol_catalog_num', catNum, false);
 			}
 
 		} catch (e) {
